@@ -576,7 +576,8 @@ impl Interpreter {
                     self.compile_under_context(&var_def, |interpreter| {
                         interpreter.create_var(var_def.id(), var_def.name());
                         let register = interpreter.get_next_var(var_def.id());
-                        let expr = interpreter.compile(&args[1]);
+                        // The RHS was already compiled above, in the caller's context
+                        let expr = compiled_args[1].clone();
 
                         CompiledExpr::new(move |env| {
                             let value = expr.execute(env)?;
